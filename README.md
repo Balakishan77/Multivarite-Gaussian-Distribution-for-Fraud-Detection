@@ -19,13 +19,11 @@ For training and evaluating Gaussian distribution algorithms, we are going to sp
 
 1) Fit the model p(x) on training set.
 
-2) On cross validation/test data, predict
+2)We use cross validation to choose the threshold parameter epsilon using the evaluation metrics Preceion/Recall, F1-score.
 
-y = 1 if p(x) < epsilon (anomaly)
-
-y = 0 if p(x) >= epsilon (normal)
-
-3) We use cross validation to choose parameter epsilon(threshold) using the evaluation metrics Preceion/Recall, F1-score.
+3) On cross validation/test data, predict
+     y = 1 if p(x) < epsilon (anomaly)
+     y = 0 if p(x) >= epsilon (normal)
 
 ### Feature Selection:
 1) Features that we choose for these algorithms have to be normally distributed. Otherwise we need to transform the features to normal distribution using log, sqrt etc.
