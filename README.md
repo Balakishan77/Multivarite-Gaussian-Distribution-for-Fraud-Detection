@@ -33,5 +33,18 @@ For training and evaluating Gaussian distribution algorithms, we are going to sp
 Lets use Feature importance to get rid of unwanted features whose existance will not improve our prediction model. 
 I have used random forest classifier to identify the influential fetures. 
      ![feature_importance](https://user-images.githubusercontent.com/40944675/46391523-0f43e980-c6fb-11e8-9d72-8b88371fc15c.png)
-1) From the Distplot we can see Normal Distribution of anomalous transactions (class = 1) is matching with Normal Distribution of genuine transactions (class = 0) for V28','V27','V26','V25','V24','V23','V22','V20','V15','V13','V8' features. It is better to delete these features as they may not be useful in finding anomalous records. 
+1) From the Distplot we can see Normal Distribution of anomalous transactions (class = 1) is matching with Normal Distribution of genuine transactions (class = 0) for 'V28','V27','V26','V25','V24','V23','V22','V20','V15','V13','V8' features. It is better to delete these features as they may not be useful in finding anomalous records. 
 2) Time is also not useful variable since it contains the seconds elapsed between the transaction for that record and the first transaction in the dataset. So the data is in increasing order always.
+
+## Algorithm Evalution:
+After fitting Multivariate Gaussian distribution on training set and found threshold value of 1.05828e-45 using cross validation set.
+We flagged anaomalies if P(x)<threshold on test and cross validation set. Below are Evalution metrics:
+### Test set:
+    Recall    = 0.768292682926829
+    Precision = 0.6494845360824743
+    F1score   = 0.7039106145251396
+
+### Cross validation set:
+    Recall    = 0.8414634146341463
+    Precision = 0.6831683168316832
+    F1score   = 0.7540983606557378
