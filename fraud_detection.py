@@ -20,24 +20,6 @@ for i, col in enumerate(dataset.columns):
     ax.legend()
 plt.show()
 
-'''
- I have shown the distplot of all the features with labels 1 and 0 in different color. 
- Its not necessary to have clear distinct distribution of numbers not overlapping each other. 
- but V14 and V11 it is one of the most important features where we see two distribution with 2 peaks,
- if you see distplot of other features,you will find 2 different distributions with their
- peaks overlapping each other for label 1 and 0 and hence i dropped them.
-v_features = dataset.columns
-plt.figure(figsize=(12,31*4))
-gs = gridspec.GridSpec(31,1)
-X1=(1,1,1,1,1,1) 
-X2=(1,0,1,0,1,0)
-for i, col in enumerate(dataset.columns):
-    ax = plt.subplot(gs[i])
-    sns.distplot(X1,color='g',label='Genuine Class')
-    sns.distplot(X2,color='r',label='Fraud Class')
-    ax.legend()
-plt.show()
-'''
 #Selecting features that add value in calculating gaussian distribution based on Feature Importance score and plotting the feature score  
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_selection import SelectFromModel
@@ -54,13 +36,10 @@ plt.xlabel('Features')
 plt.show()
 unimportant_features=[i for i,j in zip(x,y) if j<0.020] #features below threshold value -> ['V19','V8','V21','V26','V20','V1','V27','V2','V6','V28','V15','V5','V13','V22','V25','V23','V24']
 dataset.drop(unimportant_features, axis=1, inplace=True)
-dataset.drop(labels = ["Amount","Time"], axis = 1, inplace = True)#remoing Amount and Time features since they wont add much value in calculating gaussian distribution.
+dataset.drop(labels = ["Amount","Time"], axis = 1, inplace = True)#removing Amount and Time features since they wont add much value in calculating gaussian distribution.
 
-'''final features in dataset ['V3', 'V4', 'V7', 'V9', 'V10', 'V11', 'V12', 'V14', 'V16', 'V17', 'V18','Class']'''
-
-'''We can also do Feature selection using SelectFromModel(SelectFromModel is a meta-transformer that can be used along with any estimator 
-that has a coef_ or feature_importances_ attribute after fitting. The features are considered unimportant and removed given any threshold)
-
+'''
+We can also do Feature selection using SelectFromModel which can be used along with any estimator that has a coef_ or feature_importances_ attribute after fitting. The features are considered unimportant and removed given any threshold)
 #Feature scores using XGBClassifier
 from xgboost import XGBClassifier
 from xgboost import plot_importance
@@ -70,8 +49,8 @@ plot_importance(model_xg)
 plt.figure(figsize=(20, 6))
 plt.show()
 model = SelectFromModel(model_xg, prefit=True)
-X = model.transform(dataset.iloc[:,1:29],threshold=0.020)
-  '''
+X = model.transform(dataset.iloc[:,1:29],threshold=0.020)   '''
+
   
 ''' Spliting the dataset into 
             training set: 60% of the Genuine records (y=0),
@@ -115,6 +94,7 @@ def multivariateGaussian(X,mu,sigma):
 p = multivariateGaussian(genuine_train,mu,sigma)
 p_cv = multivariateGaussian(X_cv,mu,sigma)
 p_test = multivariateGaussian(X_test,mu,sigma)
+
 #Finding threshold value(epsilon) using cross validation set to flag anamolaies
 #epsilons = np.arange(min(p_cv),max(p_cv), 0.00105828e-4) #Started with this and tried different values to find threshold
 epsilons = np.arange(min(p_cv),1.05828e-41,0.0000000000000000000000000000000000105828e-10)
